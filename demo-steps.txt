@@ -1,0 +1,6 @@
+1. Why use Svelte? Comparisons with React, Vue (get some data).
+2. Installing Svelte, options (SvelteKit, plain Svelte w/ Vite, other).
+3. Basics of folder structure and how routing works, layouts
+4. Svelte syntax - making reactivity simple
+5. Basics of transitions
+6. Let's go nuts - demonstrate ways to make cool UIs. Maybe a circular picker menu that smoothly rotates when clicking on each element? Anything game-like would work.
