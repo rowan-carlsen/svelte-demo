@@ -1,4 +1,19 @@
 <script>
+	import { crossfade } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
+	const [send, receive] = crossfade({
+		duration: (d) => Math.sqrt(d * 200),
+		fallback() {
+			return {
+				duration: 600,
+				easing: quintOut,
+				css: (t) => `
+				transform: scale(${t});
+				opacity: ${t}
+			`
+			};
+		}
+	});
 	let name = 'World',
 		items = [
 			{
@@ -26,6 +41,10 @@
 				done: false
 			}
 		];
+	function check(item) {
+		item.done = !item.done;
+		items = [...items.filter((i) => i !== item), item];
+	}
 </script>
 
 <main>
@@ -34,32 +53,16 @@
 	<input bind:value={name} />
 	<div id="list-holder">
 		<ul class="list" id="todo-list">
-			{#each items.filter((i) => !i.done) as item}
-				<li>
-					<button
-						type="button"
-						on:click={() => {
-							item.done = true;
-							items = [...items.filter((i) => i !== item), item];
-						}}
-					>
-						{item.label}</button
-					>
+			{#each items.filter((i) => !i.done) as item (item.label)}
+				<li in:receive={{ key: item.label }} out:send={{ key: item.label }}>
+					<button type="button" on:click={() => check(item)}> {item.label}</button>
 				</li>
 			{/each}
 		</ul>
 		<ul class="list" id="completed-list">
-			{#each items.filter((i) => i.done) as item}
-				<li>
-					<button
-						type="button"
-						on:click={() => {
-							item.done = false;
-							items = [...items.filter((i) => i !== item), item];
-						}}
-					>
-						{item.label}</button
-					>
+			{#each items.filter((i) => i.done) as item (item.label)}
+				<li in:receive={{ key: item.label }} out:send={{ key: item.label }}>
+					<button type="button" on:click={() => check(item)}> {item.label}</button>
 				</li>
 			{/each}
 		</ul>
