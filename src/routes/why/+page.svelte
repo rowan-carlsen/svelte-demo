@@ -6,6 +6,7 @@
 <svelte:window on:click={() => index++} />
 <main>
 	<h1>Why Use Svelte/SvelteKit?</h1>
+
 	<ul class:done={index > 5}>
 		{#if index >= 1}
 			<li in:fade class:active={index === 1}>
@@ -64,5 +65,15 @@
 	}
 	:global(html) {
 		cursor: pointer;
+	}
+	h1 {
+		width: max-content;
+		padding: 1em 0;
+		margin: 0;
+		padding-right: 100px;
+		background-image: url('./svelte-logo.svg');
+		background-size: contain;
+		background-position: 100% 0;
+		background-repeat: no-repeat;
 	}
 </style>
